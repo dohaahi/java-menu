@@ -4,9 +4,8 @@ import static menu.validator.MenuValidator.inputMenuValidate;
 import static menu.validator.NameValidator.inputNameValidate;
 import static menu.view.InputView.NAME_DELIMITER;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
-import exception.IllegalMenuException;
+import menu.exception.IllegalMenuException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

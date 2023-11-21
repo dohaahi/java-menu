@@ -2,7 +2,7 @@ package menu.validator;
 
 import static menu.view.InputView.MENU_DELIMITER;
 
-import exception.IllegalMenuException;
+import menu.exception.IllegalMenuException;
 import java.util.regex.Pattern;
 
 public class MenuValidator {

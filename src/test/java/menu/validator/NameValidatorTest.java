@@ -4,7 +4,7 @@ import static menu.validator.NameValidator.inputNameValidate;
 import static menu.view.InputView.NAME_DELIMITER;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import exception.IllegalNameException;
+import menu.exception.IllegalNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

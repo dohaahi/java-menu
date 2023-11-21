@@ -2,7 +2,7 @@ package menu.validator;
 
 import static menu.view.InputView.NAME_DELIMITER;
 
-import exception.IllegalNameException;
+import menu.exception.IllegalNameException;
 import java.util.regex.Pattern;
 
 public class NameValidator {
