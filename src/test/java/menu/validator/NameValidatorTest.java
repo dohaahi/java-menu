@@ -4,7 +4,7 @@ import static menu.validator.NameValidator.inputNameValidate;
 import static menu.view.InputView.NAME_DELIMITER;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import exception.IllegalMenuException;
+import exception.IllegalNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ class NameValidatorTest {
 
         // when
         // then
-        assertThatThrownBy(() -> inputNameValidate(input)).isInstanceOf(IllegalMenuException.class);
+        assertThatThrownBy(() -> inputNameValidate(input)).isInstanceOf(IllegalNameException.class);
     }
 
     @DisplayName("한글이 아닌 다른 문자가 입력되면 예외 발생")
@@ -39,7 +39,7 @@ class NameValidatorTest {
 
         // when
         // then
-        assertThatThrownBy(() -> inputNameValidate(input)).isInstanceOf(IllegalMenuException.class);
+        assertThatThrownBy(() -> inputNameValidate(input)).isInstanceOf(IllegalNameException.class);
     }
 
     @DisplayName("구분자가 " + NAME_DELIMITER + "이면 검증 통과")
@@ -57,10 +57,10 @@ class NameValidatorTest {
     @Test
     void test5() {
         // given
-        final String input = "토미,제임스,포코";
+        final String input = "토미;제임스;포코";
 
         // when
         // then
-        inputNameValidate(input);
+        assertThatThrownBy(() -> inputNameValidate(input)).isInstanceOf(IllegalNameException.class);
     }
 }
