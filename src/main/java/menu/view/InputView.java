@@ -1,12 +1,14 @@
 package menu.view;
 
 import static menu.validator.CoachValidator.validateInputCoaches;
+import static menu.validator.MenuValidator.validateInputMenus;
 import static menu.validator.XXXValidator.validateInputXXX;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.List;
 import menu.domain.Coaches;
 import menu.domain.Domain;
+import menu.domain.Menus;
 
 public class InputView {
     private static final String COACH_NAMES_INPUT_MESSAGE = "코치의 이름을 입력해 주세요.(,로 구분)";
@@ -20,6 +22,16 @@ public class InputView {
         List<String> coaches = InputConverter.mapToStringList(input);
 
         return Coaches.from(coaches);
+    }
+
+    public static Menus readMenus() {
+        System.out.println(MENU_INPUT_MESSAGE);
+        String input = readLine();
+        validateInputMenus(input);
+
+        List<String> menus = InputConverter.mapToStringList(input);
+
+        return Menus.from(menus);
     }
 
     private static String readLine() {
