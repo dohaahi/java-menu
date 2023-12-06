@@ -4,6 +4,7 @@ import static menu.validator.InputValidator.validateValueIsNullAndEmpty;
 
 import java.util.List;
 import java.util.regex.Pattern;
+import menu.domain.Menu;
 import menu.exception.IllegalMenuException;
 
 public class MenuValidator {
@@ -11,6 +12,7 @@ public class MenuValidator {
     private static final String MENU_REGEX = "^[가-힣]+(,[가-힣]+)*$";
     private static final String INVALID_MENU_DUPLICATE_MESSAGE = "중복된 매뉴가 입력되었습니다.";
     private static final String INVALID_MENU_COUNT_MESSAGE = "못 먹는 메뉴는 3개 미만으로 입력 가능합니다.";
+    private static final String INVALID_MENU_CONTAINS_MESSAGE = "메뉴에 존재하지 않는 메뉴명입니다.";
 
     public static void validateInputMenu(final String input) {
         validateValueIsNullAndEmpty(input);
@@ -26,6 +28,7 @@ public class MenuValidator {
     public static void validateMenu(final List<String> menus) {
         validateMenuCount(menus);
         validateMenuDuplication(menus);
+        validateMenuMatch(menus);
     }
 
     private static void validateMenuDuplication(final List<String> menus) {
@@ -44,5 +47,11 @@ public class MenuValidator {
         }
     }
 
-    // TODO: 존재하지 않는 메뉴를 입력한 경우 검증
+    private static void validateMenuMatch(final List<String> menus) {
+        boolean hasMatchingMenu = Menu.hasMatchingMenu(menus);
+
+        if (!hasMatchingMenu) {
+            throw new IllegalMenuException(INVALID_MENU_CONTAINS_MESSAGE);
+        }
+    }
 }
