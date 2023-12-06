@@ -1,6 +1,7 @@
 package menu.domain;
 
-import java.util.ArrayList;
+import static menu.validator.CoachValidator.validateCoach;
+
 import java.util.List;
 
 public class Coaches {
@@ -10,12 +11,8 @@ public class Coaches {
         this.coaches = coaches;
     }
 
-    public static Coaches from(final List<String> names) {
-        final List<Coach> coaches = new ArrayList<>();
-
-        names.forEach(name -> {
-            coaches.add(Coach.from(name));
-        });
+    public static Coaches from(final List<Coach> coaches) {
+        validateCoach(coaches);
 
         return new Coaches(coaches);
     }

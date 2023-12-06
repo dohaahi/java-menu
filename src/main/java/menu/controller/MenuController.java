@@ -6,7 +6,7 @@ import menu.view.InputView;
 public class MenuController {
     public void run() {
         // 1. 입력
-        Coaches coaches = InputView.readCoachNames();
+        Coaches coaches = InputView.readCoaches();
 
         // 2. 실행
 
