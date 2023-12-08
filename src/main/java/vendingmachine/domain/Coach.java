@@ -14,4 +14,8 @@ public class Coach {
     public static Coach from(final String name) {
         return new Coach(name);
     }
+
+    public String getName() {
+        return name;
+    }
 }
