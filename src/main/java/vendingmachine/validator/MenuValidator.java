@@ -15,6 +15,10 @@ public class MenuValidator {
     private static final String INVALID_MENU_CONTAIN_MESSAGE = "메뉴에 존재하지 않는 메뉴가 입려되었습니다.";
 
     public static void validateInputMenu(final String input) {
+        if ("".equals(input)) {
+            return;
+        }
+
         validateMenuPatternInput(input);
     }
 
@@ -29,6 +33,10 @@ public class MenuValidator {
     }
 
     public static void validateMenu(final List<String> names) {
+        if ("".equals(names.get(0))) {
+            return;
+        }
+
         validateMenuDuplication(names);
         validateMenuCount(names);
         validateMenuContain(names);

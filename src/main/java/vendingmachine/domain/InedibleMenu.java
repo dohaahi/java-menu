@@ -16,4 +16,8 @@ public class InedibleMenu {
     public static InedibleMenu from(final List<String> names) {
         return new InedibleMenu(names);
     }
+
+    public List<String> getMenus() {
+        return names;
+    }
 }

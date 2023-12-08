@@ -5,14 +5,18 @@ import static vendingmachine.util.RetryHandler.retryIfFailure;
 import java.util.ArrayList;
 import java.util.List;
 import vendingmachine.domain.Coach;
+import vendingmachine.domain.CoachInedibleMenu;
+import vendingmachine.domain.CoachHasInedibleMenus;
 import vendingmachine.domain.Coaches;
 import vendingmachine.domain.InedibleMenu;
+import vendingmachine.domain.MenuMachine;
 import vendingmachine.view.InputView;
 import vendingmachine.view.OutputView;
 
 public class MenuController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final MenuMachine machine = new MenuMachine();
 
     public MenuController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -21,20 +25,26 @@ public class MenuController {
 
     public void run() {
         // 1. 입력
+        CoachHasInedibleMenus coachHasInedibleMenus = generateCoachInedibleMenus();
+
+        // 2. 실행
+        machine.recommend(coachHasInedibleMenus);
+
+        // 3. 출력
+        outputView.printRecommendResult(machine.toRecommendResultDto());
+    }
+
+    private CoachHasInedibleMenus generateCoachInedibleMenus() {
         Coaches coaches = retryIfFailure(inputView::readCoach);
         List<Coach> coachesStorage = coaches.getCoaches();
 
-        List<InedibleMenu> inedibleMenus = new ArrayList<>();
+        List<CoachInedibleMenu> coachInedibleMenus = new ArrayList<>();
         for (Coach coach : coachesStorage) {
-            inedibleMenus.add(retryIfFailure(() -> inputView.readMenu(coach.getName())));
+            InedibleMenu inedibleMenu = retryIfFailure(() -> inputView.readMenu(coach.getName()));
+
+            coachInedibleMenus.add(new CoachInedibleMenu(coach.getName(), inedibleMenu));
         }
 
-        for (int i = 0; i < coaches.getCoaches().size(); i++) {
-
-        }
-
-        // 2. 실행
-
-        // 3. 출력
+        return CoachHasInedibleMenus.from(coachInedibleMenus);
     }
 }
