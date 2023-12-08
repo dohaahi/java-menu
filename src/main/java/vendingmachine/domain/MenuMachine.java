@@ -14,67 +14,94 @@ public class MenuMachine {
         List<CoachInedibleMenu> coaches = generateResult(coachHasInedibleMenus);
 
         for (int dayCount = 0; dayCount < DAT_LENGTH; dayCount++) {
-            final MenuCategory pickCategory = MenuCategory.pickCategory();
+            final MenuCategory pickCategory = recursivePickCategory();
             menuCategories.add(pickCategory);
 
-            for (RecommendResult result : resultList) {
-                result.addMenu(getRecommendMenu(coaches, pickCategory));
-            }
+            recommendMenu(coaches, pickCategory);
         }
     }
 
-    private String getRecommendMenu(final List<CoachInedibleMenu> coaches, final MenuCategory pickCategory) {
-        String recommendMenu = "";
-
+    private void recommendMenu(final List<CoachInedibleMenu> coaches, final MenuCategory pickCategory) {
         for (CoachInedibleMenu coach : coaches) {
-            recommendMenu = reversePickMenu(coach, pickCategory);
-        }
+            String recommendMenu = getRecommendMenu(coach, pickCategory);
 
-        return recommendMenu;
+            RecommendResult recommendResult = resultList.stream()
+                    .filter(result -> result.getCoach().equals(coach.coach()))
+                    .findAny()
+                    .orElseThrow(() -> new IllegalArgumentException("recommend에서 예외 발생"));
+
+            while (isDuplicateMenu(recommendResult, recommendMenu)) {
+                recommendMenu = getRecommendMenu(coach, pickCategory);
+            }
+
+            recommendResult.addMenu(recommendMenu);
+        }
+    }
+
+    public RecommendResultDto toRecommendResultDto() {
+        String categories = categoryConvertor();
+
+        List<String> results = resultConvertor();
+
+        return new RecommendResultDto(categories, results);
+    }
+
+    private String getRecommendMenu(final CoachInedibleMenu coach, final MenuCategory pickCategory) {
+        return recursivePickMenu(coach, pickCategory);
     }
 
     private List<CoachInedibleMenu> generateResult(final CoachHasInedibleMenus coachHasInedibleMenus) {
         List<CoachInedibleMenu> coaches = coachHasInedibleMenus.getCoachInedibleMenus();
 
         for (CoachInedibleMenu coach : coaches) {
-            resultList.add(new RecommendResult(coach.name()));
+            resultList.add(new RecommendResult(coach.coach()));
         }
 
         return coaches;
     }
 
-
-    private String reversePickMenu(final CoachInedibleMenu coach, final MenuCategory pickCategory) {
+    private String recursivePickMenu(final CoachInedibleMenu coach, final MenuCategory pickCategory) {
         String pickMenu = Menu.pickMenu(pickCategory);
 
-        if (!isAppropriateMenu(coach, pickMenu)) {
-            pickMenu = reversePickMenu(coach, pickCategory);
+        if (coach.isInedibleMenu(pickMenu)) {
+            pickMenu = recursivePickMenu(coach, pickCategory);
         }
 
         return pickMenu;
     }
 
-    private boolean isAppropriateMenu(final CoachInedibleMenu coach, final String pickMenu) {
-        // 코치가 못 먹는 메뉴인지
-        if (coach.isInedibleMenu(pickMenu)) {
-            return false;
-        }
-
-        // 이미 추천한 메뉴인지
-        // 카테고리가 이미 2번이나 추천되었는지
-
-        return true;
+    private boolean isDuplicateMenu(final RecommendResult result, final String recommendMenu) {
+        return result.getMenus()
+                .stream()
+                .anyMatch(menu -> menu.equals(recommendMenu));
     }
 
-    public RecommendResultDto toRecommendResultDto() {
-        String categories = menuCategories.stream()
+    private MenuCategory recursivePickCategory() {
+        MenuCategory pickCategory = MenuCategory.pickCategory();
+
+        if (isDuplicateCategory(pickCategory)) {
+            pickCategory = recursivePickCategory();
+        }
+
+        return pickCategory;
+    }
+
+    private List<String> resultConvertor() {
+        return resultList.stream()
+                .map(result ->
+                        result.getCoach().getName() + " | " + String.join(" | ", result.getMenus()))
+                .toList();
+    }
+
+    private String categoryConvertor() {
+        return menuCategories.stream()
                 .map(MenuCategory::getName)
                 .collect(Collectors.joining(" | "));
+    }
 
-        List<String> results = resultList.stream()
-                .map(result -> result.getCoachName() + " | " + String.join(" | ", result.getMenus()))
-                .toList();
-
-        return new RecommendResultDto(categories, results);
+    private boolean isDuplicateCategory(final MenuCategory pickCategory) {
+        return menuCategories.stream()
+                .filter(category -> category.equals(pickCategory))
+                .count() >= 2;
     }
 }

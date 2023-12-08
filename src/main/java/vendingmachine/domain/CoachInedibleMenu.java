@@ -1,7 +1,7 @@
 package vendingmachine.domain;
 
 public record CoachInedibleMenu(
-        String name,
+        Coach coach,
         InedibleMenu inedibleMenu
 ) {
     public boolean isInedibleMenu(final String pickMenu) {

@@ -43,7 +43,7 @@ public class MenuController {
         for (Coach coach : coachesStorage) {
             InedibleMenu inedibleMenu = retryIfFailure(() -> inputView.readMenu(coach.getName()));
 
-            coachInedibleMenus.add(new CoachInedibleMenu(coach.getName(), inedibleMenu));
+            coachInedibleMenus.add(new CoachInedibleMenu(coach, inedibleMenu));
         }
 
         return CoachHasInedibleMenus.from(coachInedibleMenus);
