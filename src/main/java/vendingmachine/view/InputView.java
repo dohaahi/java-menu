@@ -6,7 +6,7 @@ import static vendingmachine.validator.MenuValidator.validateInputMenu;
 import camp.nextstep.edu.missionutils.Console;
 import java.util.List;
 import vendingmachine.domain.Coaches;
-import vendingmachine.domain.Menu;
+import vendingmachine.domain.CoachMenu;
 
 public class InputView {
     private static final String COACH_NAMES_INPUT_MESSAGE = "코치의 이름을 입력해 주세요.(,로 구분)";
@@ -24,14 +24,14 @@ public class InputView {
         return Coaches.from(names);
     }
 
-    public Menu readMenu(final String name) {
+    public CoachMenu readMenu(final String name) {
         System.out.printf(MENU_INPUT_MESSAGE, name);
         String input = readLine();
         validateInputMenu(input);
 
         List<String> names = inputConverter.mapToStringList(input);
 
-        return Menu.from(names);
+        return CoachMenu.from(names);
     }
 
     private String readLine() {

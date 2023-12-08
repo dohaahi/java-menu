@@ -3,7 +3,7 @@ package vendingmachine.util;
 import java.util.function.Supplier;
 
 public class RetryHandler {
-    private static final String RE_INPUT_MESSAGE = "다시 입력해 주세요.";
+    private static final String RE_INPUT_MESSAGE = " 다시 입력해 주세요.";
 
     public static <T> T retryIfFailure(final Supplier<T> supplier) {
         while (true) {

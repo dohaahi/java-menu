@@ -1,9 +1,8 @@
 package vendingmachine.validator;
 
-import static vendingmachine.validator.InputValidator.validateValueIsNullAndEmpty;
-
 import java.util.List;
 import java.util.regex.Pattern;
+import vendingmachine.domain.Menu;
 import vendingmachine.exception.IllegalMenuException;
 
 public class MenuValidator {
@@ -13,6 +12,7 @@ public class MenuValidator {
     private static final String INVALID_PATTERN_MESSAGE = "유효하지 않은 메뉴입니다.";
     private static final String INVALID_MENU_DUPLICATE_MESSAGE = "중복된 메뉴를 입력했습니다.";
     private static final String INVALID_MENU_LENGTH_MESSAGE = "메뉴는 최대 2개 까지 입력가능합니다.";
+    private static final String INVALID_MENU_CONTAIN_MESSAGE = "메뉴에 존재하지 않는 메뉴가 입려되었습니다.";
 
     public static void validateInputMenu(final String input) {
         validateMenuPatternInput(input);
@@ -28,23 +28,31 @@ public class MenuValidator {
         }
     }
 
-    public static void validateXXX(final List<Integer> numbers) {
-        validateMenuDuplication(numbers);
-        validateMenuCount(numbers);
-        // TODO: 메뉴에 없는 메뉴인지 검증
+    public static void validateMenu(final List<String> names) {
+        validateMenuDuplication(names);
+        validateMenuCount(names);
+        validateMenuContain(names);
     }
 
-    private static void validateMenuDuplication(final List<Integer> numbers) {
-        long uniqueNumberCount = numbers.stream().distinct().count();
+    private static void validateMenuDuplication(final List<String> names) {
+        long uniqueNumberCount = names.stream().distinct().count();
 
-        if (numbers.size() != uniqueNumberCount) {
+        if (names.size() != uniqueNumberCount) {
             throw new IllegalMenuException(INVALID_MENU_DUPLICATE_MESSAGE);
         }
     }
 
-    private static void validateMenuCount(final List<Integer> numbers) {
-        if (numbers.size() > MAX_MENU_COUNT) {
+    private static void validateMenuCount(final List<String> names) {
+        if (names.size() > MAX_MENU_COUNT) {
             throw new IllegalArgumentException(INVALID_MENU_LENGTH_MESSAGE);
+        }
+    }
+
+    private static void validateMenuContain(final List<String> names) {
+        for (String name : names) {
+            if (!Menu.hasMenu(name)) {
+                throw new IllegalMenuException(INVALID_MENU_CONTAIN_MESSAGE);
+            }
         }
     }
 }
