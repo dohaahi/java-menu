@@ -14,7 +14,7 @@ public class CoachValidator {
     private static final String COACH_REGEX = "^[가-힣]+(" + DELIMITER + "[가-힣]+)*$";
     private static final String INVALID_PATTERN_MESSAGE = "유효하지 않은 코치입니다.";
     private static final String INVALID_XXX_DUPLICATE_MESSAGE = "중복된 코치가 입력되었습니다.";
-    private static final String INVALID_COACH_COUNT_MESSAGE = "코치는 2~5명 까지만 입력 가능합니다.";
+    private static final String INVALID_COACH_COUNT_MESSAGE = "코치는 2~5명으로 입력 가능합니다.";
 
     public static void validateInputCoach(final String input) {
         validateValueIsNullAndEmpty(input);
