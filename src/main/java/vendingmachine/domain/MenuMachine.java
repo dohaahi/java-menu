@@ -2,28 +2,31 @@ package vendingmachine.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import vendingmachine.domain.dto.RecommendResultDto;
 
 public class MenuMachine {
     private static final int DAT_LENGTH = 5;
     private final List<RecommendResult> resultList = new ArrayList<>();
+    private final List<MenuCategory> menuCategories = new ArrayList<>();
 
     public void recommend(final CoachHasInedibleMenus coachHasInedibleMenus) {
         List<CoachInedibleMenu> coaches = generateResult(coachHasInedibleMenus);
 
         for (int dayCount = 0; dayCount < DAT_LENGTH; dayCount++) {
+            final MenuCategory pickCategory = MenuCategory.pickCategory();
+            menuCategories.add(pickCategory);
+
             for (RecommendResult result : resultList) {
-                result.addMenu(getRecommendMenu(coaches));
+                result.addMenu(getRecommendMenu(coaches, pickCategory));
             }
         }
     }
 
-    private String getRecommendMenu(final List<CoachInedibleMenu> coaches) {
+    private String getRecommendMenu(final List<CoachInedibleMenu> coaches, final MenuCategory pickCategory) {
         String recommendMenu = "";
 
         for (CoachInedibleMenu coach : coaches) {
-            MenuCategory pickCategory = MenuCategory.pickCategory();
-
             recommendMenu = reversePickMenu(coach, pickCategory);
         }
 
@@ -64,10 +67,14 @@ public class MenuMachine {
     }
 
     public RecommendResultDto toRecommendResultDto() {
+        String categories = menuCategories.stream()
+                .map(MenuCategory::getName)
+                .collect(Collectors.joining(" | "));
+
         List<String> results = resultList.stream()
                 .map(result -> result.getCoachName() + " | " + String.join(" | ", result.getMenus()))
                 .toList();
 
-        return new RecommendResultDto(results);
+        return new RecommendResultDto(categories, results);
     }
 }

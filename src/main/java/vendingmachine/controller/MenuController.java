@@ -25,6 +25,7 @@ public class MenuController {
 
     public void run() {
         // 1. 입력
+        System.out.println("점심 메뉴 추천을 시작합니다." + System.lineSeparator());
         CoachHasInedibleMenus coachHasInedibleMenus = generateCoachInedibleMenus();
 
         // 2. 실행

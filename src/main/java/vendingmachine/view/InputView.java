@@ -9,7 +9,7 @@ import vendingmachine.domain.Coaches;
 import vendingmachine.domain.InedibleMenu;
 
 public class InputView {
-    private static final String COACH_NAMES_INPUT_MESSAGE = "코치의 이름을 입력해 주세요.(,로 구분)";
+    private static final String COACH_NAMES_INPUT_MESSAGE = "코치의 이름을 입력해 주세요. (,로 구분)";
     private static final String MENU_INPUT_MESSAGE =
             lineSeparator("%s(이)가 못 먹는 메뉴를 입력해 주세요.");
     private final InputConverter inputConverter = new InputConverter();

@@ -26,4 +26,8 @@ public enum MenuCategory {
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("pickCategory에서 오류가 발생했습니다"));
     }
+
+    public String getName() {
+        return name;
+    }
 }
