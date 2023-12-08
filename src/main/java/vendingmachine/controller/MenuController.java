@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import vendingmachine.domain.Coach;
 import vendingmachine.domain.Coaches;
-import vendingmachine.domain.Menu;
+import vendingmachine.domain.InedibleMenu;
 import vendingmachine.view.InputView;
 import vendingmachine.view.OutputView;
 
@@ -24,13 +24,16 @@ public class MenuController {
         Coaches coaches = retryIfFailure(inputView::readCoach);
         List<Coach> coachesStorage = coaches.getCoaches();
 
-        List<Menu> menus = new ArrayList<>();
+        List<InedibleMenu> inedibleMenus = new ArrayList<>();
         for (Coach coach : coachesStorage) {
-            menus.add(retryIfFailure(() -> inputView.readMenu(coach.getName())));
+            inedibleMenus.add(retryIfFailure(() -> inputView.readMenu(coach.getName())));
+        }
+
+        for (int i = 0; i < coaches.getCoaches().size(); i++) {
+
         }
 
         // 2. 실행
-
 
         // 3. 출력
     }

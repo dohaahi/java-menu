@@ -4,16 +4,16 @@ import static vendingmachine.validator.MenuValidator.validateMenu;
 
 import java.util.List;
 
-public class CoachMenu {
+public class InedibleMenu {
     private final List<String> names;
 
-    private CoachMenu(List<String> names) {
+    private InedibleMenu(List<String> names) {
         validateMenu(names);
 
         this.names = names;
     }
 
-    public static CoachMenu from(final List<String> names) {
-        return new CoachMenu(names);
+    public static InedibleMenu from(final List<String> names) {
+        return new InedibleMenu(names);
     }
 }
