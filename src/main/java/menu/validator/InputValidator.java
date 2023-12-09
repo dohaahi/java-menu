@@ -1,6 +1,4 @@
-package menu;
-
-import wtc.exception.IllegalXXXException;
+package menu.validator;
 
 public class InputValidator {
     private static final String INPUT_VALUE_MESSAGE = "값을 입력해주세요.";
@@ -12,13 +10,13 @@ public class InputValidator {
 
     private static void validateEmptyInput(final String input) {
         if (input.isBlank()) {
-            throw new IllegalMenuException(INPUT_VALUE_MESSAGE);
+            throw new menu.IllegalMenuException(INPUT_VALUE_MESSAGE);
         }
     }
 
     private static void validateNullInput(final String input) {
         if (input == null) {
-            throw new IllegalMenuException(INPUT_VALUE_MESSAGE);
+            throw new menu.IllegalMenuException(INPUT_VALUE_MESSAGE);
         }
     }
 }

@@ -9,8 +9,9 @@ import menu.domain.Coaches;
 import menu.domain.InedibleMenu;
 
 public class InputView {
-    private static final String COACH_NAMES_INPUT_MESSAGE = "코치의 이름을 입력해 주세요. (, 로 구분)";
-    private static final String MENUS_INPUT_MESSAGE = "%s(이)가 못 먹는 메뉴를 입력해 주세요.";
+    private static final String COACH_NAMES_INPUT_MESSAGE = System.lineSeparator() + "코치의 이름을 입력해 주세요. (, 로 구분)";
+    private static final String MENUS_INPUT_MESSAGE =
+            System.lineSeparator() + "%s(이)가 못 먹는 메뉴를 입력해 주세요." + System.lineSeparator();
 
     public Coaches readCoachNames() {
         System.out.println(COACH_NAMES_INPUT_MESSAGE);

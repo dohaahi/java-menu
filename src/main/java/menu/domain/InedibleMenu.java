@@ -16,4 +16,9 @@ public class InedibleMenu {
     public static InedibleMenu from(final List<String> menus) {
         return new InedibleMenu(menus);
     }
+
+    public boolean hasMatch(final String menu) {
+        return menus.stream()
+                .anyMatch(menuName -> menuName.equals(menu));
+    }
 }
