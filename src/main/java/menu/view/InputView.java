@@ -1,17 +1,18 @@
-package menu;
+package menu.view;
 
 import static menu.validator.CoachValidator.validateInputCoach;
+import static menu.validator.MenuItemValidator.validateInputMenu;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.List;
 import menu.domain.Coaches;
-import menu.view.InputConverter;
+import menu.domain.InedibleMenu;
 
 public class InputView {
     private static final String COACH_NAMES_INPUT_MESSAGE = "코치의 이름을 입력해 주세요. (, 로 구분)";
     private static final String MENUS_INPUT_MESSAGE = "%s(이)가 못 먹는 메뉴를 입력해 주세요.";
 
-    public static Coaches readCoachNames() {
+    public Coaches readCoachNames() {
         System.out.println(COACH_NAMES_INPUT_MESSAGE);
         String input = readLine();
         validateInputCoach(input);
@@ -21,17 +22,17 @@ public class InputView {
         return Coaches.from(coachNames);
     }
 
-    public static Coaches readMenu() {
-        System.out.println(MENUS_INPUT_MESSAGE);
+    public InedibleMenu readMenu(final String name) {
+        System.out.printf(MENUS_INPUT_MESSAGE, name);
         String input = readLine();
-        validateInputMenuItem(input);
+        validateInputMenu(input);
 
-        List<String> menuItems = InputConverter.mapToStringList(input);
+        List<String> menus = InputConverter.mapToStringList(input);
 
-        return MenuItem.from();
+        return InedibleMenu.from(menus);
     }
 
-    private static String readLine() {
+    private String readLine() {
         return Console.readLine().trim();
     }
 }

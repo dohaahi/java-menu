@@ -20,4 +20,8 @@ public class Coaches {
     public static Coaches from(final List<String> coachNames) {
         return new Coaches(coachNames);
     }
+
+    public List<Coach> getCoaches() {
+        return coaches;
+    }
 }

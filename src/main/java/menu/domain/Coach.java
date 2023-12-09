@@ -1,11 +1,8 @@
 package menu.domain;
 
-import java.awt.Menu;
-import java.util.List;
-
 public class Coach {
     private final String name;
-    private  List<Menu> menus;
+    private InedibleMenu menus;
 
     private Coach(String name) {
         this.name = name;
@@ -13,5 +10,13 @@ public class Coach {
 
     public static Coach from(final String name) {
         return new Coach(name);
+    }
+
+    public void addInedibleMenu(final InedibleMenu menus) {
+        this.menus = menus;
+    }
+
+    public String getName() {
+        return name;
     }
 }
